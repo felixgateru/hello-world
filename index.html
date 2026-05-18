@@ -1,16 +1,1165 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Hello World</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Felix Weekly Schedule</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #0f0f1a;
+        color: #e0e0e0;
+        padding: 2rem 1rem;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 0.25rem;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+
+      /* Day tabs */
+      .day-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .day-tab {
+        padding: 0.5rem 1.2rem;
+        border-radius: 8px;
+        background: #1e1e30;
+        color: #aaa;
+        border: none;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+
+      .day-tab:hover {
+        background: #2a2a40;
+        color: #ddd;
+      }
+      .day-tab.active {
+        background: #6c63ff;
+        color: #fff;
+      }
+
+      /* Schedule Grid */
+      /* Panel visibility is managed via the HTML hidden attribute */
+      .schedule-day[hidden] {
+        display: none;
+      }
+
+      .schedule-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .time-row {
+        display: flex;
+        align-items: stretch;
+        min-height: 44px;
+        gap: 0;
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .time-label {
+        width: 80px;
+        min-width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #888;
+        background: #161625;
+        padding: 0.25rem;
+        text-align: center;
+        border-right: 2px solid #1e1e30;
+      }
+
+      .activity-block {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        gap: 0.5rem;
+        transition: transform 0.15s;
+      }
+
+      .activity-block:hover {
+        transform: scale(1.005);
+      }
+
+      .activity-icon {
+        font-size: 1.1rem;
+      }
+
+      .activity-detail {
+        margin-left: auto;
+        font-size: 0.7rem;
+        opacity: 0.7;
+        font-weight: 400;
+      }
+
+      /* Color palette */
+      .sleep {
+        background: #1a1a2e;
+        color: #b8b8d0;
+      }
+      .morning-routine {
+        background: #1e2a4a;
+        color: #8ab4f8;
+      }
+      .gym {
+        background: #2d1f4e;
+        color: #c084fc;
+      }
+      .meal {
+        background: #1e3a2a;
+        color: #81c784;
+      }
+      .free {
+        background: #1a1a1a;
+        color: #999;
+      }
+      .work {
+        background: #1e2840;
+        color: #8ab4f8;
+      }
+      .meeting {
+        background: #2a2a15;
+        color: #e8c56c;
+      }
+      .run {
+        background: #2d1520;
+        color: #f28b82;
+      }
+      .shower {
+        background: #1a2a38;
+        color: #6ecfdb;
+      }
+      .projects {
+        background: #1a2a1a;
+        color: #a1dd70;
+      }
+      .wind-down {
+        background: #1e1e28;
+        color: #999;
+      }
+      .cleaning {
+        background: #2a2020;
+        color: #f0a0a0;
+      }
+      .meal-prep {
+        background: #2a2a1a;
+        color: #d4c570;
+      }
+
+      /* Legend */
+      .legend {
+        max-width: 700px;
+        margin: 2rem auto 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.75rem;
+        color: #aaa;
+      }
+
+      .legend-swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+      }
+
+      /* Summary card */
+      .summary {
+        max-width: 700px;
+        margin: 2rem auto 0;
+        background: #161625;
+        border-radius: 12px;
+        padding: 1.25rem;
+        border: 1px solid #2a2a3a;
+      }
+
+      .summary h3 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.75rem;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 0.5rem;
+      }
+
+      .summary-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: #ccc;
+      }
+
+      .summary-item .emoji {
+        font-size: 1rem;
+      }
+
+      @media (max-width: 500px) {
+        body {
+          padding: 1rem 0.5rem;
+        }
+        h1 {
+          font-size: 1.5rem;
+        }
+        .time-label {
+          width: 60px;
+          min-width: 60px;
+          font-size: 0.65rem;
+        }
+        .activity-block {
+          font-size: 0.75rem;
+          padding: 0.4rem 0.6rem;
+        }
+        .activity-detail {
+          display: none;
+        }
+        .day-tab {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.75rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello welcome to wanyoh.org!</h1>
-    <p>
-      This is a simple static HTML site with no frameworks or build tools
-      required.
+    <h1>⚡ Felix Weekly Schedule</h1>
+    <p class="subtitle">
+      Sleep 7h · Gym AM + Run PM · 7.5h Work · Personal Projects · Weekend flex
     </p>
-    <p>
-      Created by <a href="https://wanyoh.org">wanyoh</a>.
-    </p>
+
+    <!-- Day Tabs -->
+    <div
+      class="day-tabs"
+      id="dayTabs"
+      role="tablist"
+      aria-label="Select day of week"
+    >
+      <button
+        class="day-tab active"
+        data-day="monday"
+        role="tab"
+        id="tab-monday"
+        aria-controls="day-monday"
+        aria-selected="true"
+        tabindex="0"
+      >
+        Mon
+      </button>
+      <button
+        class="day-tab"
+        data-day="tuesday"
+        role="tab"
+        id="tab-tuesday"
+        aria-controls="day-tuesday"
+        aria-selected="false"
+        tabindex="-1"
+      >
+        Tue
+      </button>
+      <button
+        class="day-tab"
+        data-day="wednesday"
+        role="tab"
+        id="tab-wednesday"
+        aria-controls="day-wednesday"
+        aria-selected="false"
+        tabindex="-1"
+      >
+        Wed
+      </button>
+      <button
+        class="day-tab"
+        data-day="thursday"
+        role="tab"
+        id="tab-thursday"
+        aria-controls="day-thursday"
+        aria-selected="false"
+        tabindex="-1"
+      >
+        Thu
+      </button>
+      <button
+        class="day-tab"
+        data-day="friday"
+        role="tab"
+        id="tab-friday"
+        aria-controls="day-friday"
+        aria-selected="false"
+        tabindex="-1"
+      >
+        Fri
+      </button>
+      <button
+        class="day-tab"
+        data-day="saturday"
+        role="tab"
+        id="tab-saturday"
+        aria-controls="day-saturday"
+        aria-selected="false"
+        tabindex="-1"
+      >
+        Sat
+      </button>
+      <button
+        class="day-tab"
+        data-day="sunday"
+        role="tab"
+        id="tab-sunday"
+        aria-controls="day-sunday"
+        aria-selected="false"
+        tabindex="-1"
+      >
+        Sun
+      </button>
+    </div>
+
+    <!-- ========== MONDAY ========== -->
+    <div
+      class="schedule-day"
+      id="day-monday"
+      role="tabpanel"
+      aria-labelledby="tab-monday"
+    >
+      <div class="schedule-grid">
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower, breakfast, prepare for
+            day
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">10:00–12:30</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Deep work block
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">12:30–1:00</div>
+          <div class="activity-block meeting">
+            <span class="activity-icon">📋</span> Daily standup
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">1:00–2:00</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal 1
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">2:00–7:00</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Work block
+            <span class="activity-detail">extended</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–7:30</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥩</span> Meal 2
+            <span class="activity-detail">fuel for the run</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:30–8:30</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Evening run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">8:30–9:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; wind down from
+            run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block projects">
+            <span class="activity-icon">🔨</span> Personal projects
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">10:00–11:30</div>
+          <div class="activity-block free">
+            <span class="activity-icon">🛋️</span> Free evening — relax, read, or
+            social
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:30–6:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Sleep — 7 hours
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TUESDAY–THURSDAY ========== -->
+    <div
+      class="schedule-day"
+      id="day-tuesday"
+      role="tabpanel"
+      aria-labelledby="tab-tuesday"
+      hidden
+    >
+      <div class="schedule-grid">
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower, breakfast, prepare for
+            day
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">10:00–12:30</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Deep work block
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">12:30–1:00</div>
+          <div class="activity-block meeting">
+            <span class="activity-icon">📋</span> Daily standup
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">1:00–2:00</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal 1
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">2:00–7:00</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Work block
+            <span class="activity-detail">extended</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–7:30</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥩</span> Meal 2
+            <span class="activity-detail">fuel for the run</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:30–8:30</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Evening run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">8:30–9:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; wind down from
+            run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–11:00</div>
+          <div class="activity-block projects">
+            <span class="activity-icon">🔨</span> Personal projects
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:00–11:30</div>
+          <div class="activity-block wind-down">
+            <span class="activity-icon">📖</span> Wind down for sleep
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:30–6:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Sleep — 7 hours
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wednesday and Thursday reuse Tuesday -->
+    <div
+      class="schedule-day"
+      id="day-wednesday"
+      role="tabpanel"
+      aria-labelledby="tab-wednesday"
+      hidden
+    >
+      <div class="schedule-grid">
+        <!-- Same as Tuesday -->
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower, breakfast, prepare for
+            day
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">10:00–12:30</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Deep work block
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">12:30–1:00</div>
+          <div class="activity-block meeting">
+            <span class="activity-icon">📋</span> Daily standup
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">1:00–2:00</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal 1
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">2:00–7:00</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Work block
+            <span class="activity-detail">extended</span>
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">7:00–7:30</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥩</span> Meal 2
+            <span class="activity-detail">fuel for the run</span>
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">7:30–8:30</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Evening run
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">8:30–9:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; wind down from
+            run
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">9:00–11:00</div>
+          <div class="activity-block projects">
+            <span class="activity-icon">🔨</span> Personal projects
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">11:00–11:30</div>
+          <div class="activity-block wind-down">
+            <span class="activity-icon">📖</span> Wind down for sleep
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">11:30–6:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Sleep — 7 hours
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="schedule-day"
+      id="day-thursday"
+      role="tabpanel"
+      aria-labelledby="tab-thursday"
+      hidden
+    >
+      <div class="schedule-grid">
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower, breakfast, prepare for
+            day
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">10:00–12:30</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Deep work block
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">12:30–1:00</div>
+          <div class="activity-block meeting">
+            <span class="activity-icon">📋</span> Daily standup
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">1:00–2:00</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal 1
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">2:00–7:00</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Work block
+            <span class="activity-detail">extended</span>
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">7:00–7:30</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥩</span> Meal 2
+            <span class="activity-detail">fuel for the run</span>
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">7:30–8:30</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Evening run
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">8:30–9:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; wind down from
+            run
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">9:00–11:00</div>
+          <div class="activity-block projects">
+            <span class="activity-icon">🔨</span> Personal projects
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">11:00–11:30</div>
+          <div class="activity-block wind-down">
+            <span class="activity-icon">📖</span> Wind down for sleep
+          </div>
+        </div>
+        <div class="time-row">
+          <div class="time-label">11:30–6:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Sleep — 7 hours
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== FRIDAY ========== -->
+    <div
+      class="schedule-day"
+      id="day-friday"
+      role="tabpanel"
+      aria-labelledby="tab-friday"
+      hidden
+    >
+      <div class="schedule-grid">
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower, breakfast, prepare for
+            day
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">10:00–12:30</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Deep work block
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">12:30–1:00</div>
+          <div class="activity-block meeting">
+            <span class="activity-icon">📋</span> Daily standup
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">1:00–2:00</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal 1
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">2:00–6:00</div>
+          <div class="activity-block work">
+            <span class="activity-icon">💼</span> Work block
+            <span class="activity-detail">extended</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">6:00–7:00</div>
+          <div class="activity-block cleaning">
+            <span class="activity-icon">🧹</span> Clean the house
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–7:30</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥩</span> Meal 2
+            <span class="activity-detail">fuel for the run</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:30–8:30</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Evening run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">8:30–9:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; wind down
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–11:00</div>
+          <div class="activity-block free">
+            <span class="activity-icon">🎉</span> Free evening — it's Friday!
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:30–6:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Sleep — 7 hours
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SATURDAY ========== -->
+    <div
+      class="schedule-day"
+      id="day-saturday"
+      role="tabpanel"
+      aria-labelledby="tab-saturday"
+      hidden
+    >
+      <div class="schedule-grid">
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–10:30</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Longer run
+            <span class="activity-detail">extended time</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">10:30–11:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; get ready
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:00–11:30</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:30 onwards</div>
+          <div class="activity-block free">
+            <span class="activity-icon">☀️</span> Free time — girlfriend,
+            friends, going out
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">Evening</div>
+          <div class="activity-block free">
+            <span class="activity-icon">🌆</span> Out &amp; about — no scheduled
+            run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">~11:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Wind down &amp; sleep
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SUNDAY ========== -->
+    <div
+      class="schedule-day"
+      id="day-sunday"
+      role="tabpanel"
+      aria-labelledby="tab-sunday"
+      hidden
+    >
+      <div class="schedule-grid">
+        <div class="time-row">
+          <div class="time-label">6:30–7:00</div>
+          <div class="activity-block morning-routine">
+            <span class="activity-icon">🌅</span> Wake up &amp; get ready
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">7:00–9:00</div>
+          <div class="activity-block gym">
+            <span class="activity-icon">🏋️</span> Morning gym session
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">9:00–10:00</div>
+          <div class="activity-block run">
+            <span class="activity-icon">🏃</span> Longer run
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">10:00–11:00</div>
+          <div class="activity-block shower">
+            <span class="activity-icon">🚿</span> Shower &amp; breakfast
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">11:00–12:00</div>
+          <div class="activity-block meal">
+            <span class="activity-icon">🥗</span> Meal
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">12:00–2:00</div>
+          <div class="activity-block meal-prep">
+            <span class="activity-icon">🧑‍🍳</span> Bulk meal prep
+            <span class="activity-detail">cook &amp; portion for the week</span>
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">2:00 onwards</div>
+          <div class="activity-block free">
+            <span class="activity-icon">☀️</span> Free time — girlfriend,
+            friends, relax
+          </div>
+        </div>
+
+        <div class="time-row">
+          <div class="time-label">~11:30</div>
+          <div class="activity-block sleep">
+            <span class="activity-icon">😴</span> Wind down &amp; sleep
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #1a1a2e"></div>
+        Sleep
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #2d1f4e"></div>
+        Gym
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #2d1520"></div>
+        Run
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #1e2840"></div>
+        Day Job
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #1a2a1a"></div>
+        Personal Projects
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #1e3a2a"></div>
+        Meals
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #2a2a15"></div>
+        Meetings
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #2a2020"></div>
+        Cleaning
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #2a2a1a"></div>
+        Meal Prep
+      </div>
+      <div class="legend-item">
+        <div class="legend-swatch" style="background: #1a1a1a"></div>
+        Free / Flex
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary">
+      <h3>📊 Weekly Overview</h3>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="emoji">😴</span> Sleep: 7h/day (11:30 PM – 6:30 AM)
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🏋️</span> Gym: 2h every morning @ 7 AM
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🏃</span> Run: 1h evenings (Mon–Fri)
+        </div>
+        <div class="summary-item">
+          <span class="emoji">💼</span> Work: 7.5h/day (Mon–Thu), 6.5h Fri,
+          start by 10 AM
+        </div>
+        <div class="summary-item">
+          <span class="emoji">📋</span> Standup: 12:30 PM Mon–Fri
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🥗</span> Meals: 2/day — after standup &amp;
+          before run
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🔨</span> Projects: Mon (1h), Tue–Thu extended
+          (2h)
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🧹</span> Cleaning: Friday
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🧑‍🍳</span> Meal Prep: Sunday afternoon
+        </div>
+        <div class="summary-item">
+          <span class="emoji">🎉</span> Weekends: longer runs, free time, going
+          out
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const tabList = document.getElementById("dayTabs");
+        const tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+
+        function activateTab(tab) {
+          // Deactivate all tabs and hide all panels
+          tabs.forEach((t) => {
+            t.classList.remove("active");
+            t.setAttribute("aria-selected", "false");
+            t.setAttribute("tabindex", "-1");
+            const panel = document.getElementById(
+              t.getAttribute("aria-controls"),
+            );
+            if (panel) panel.hidden = true;
+          });
+
+          // Activate the selected tab and show its panel
+          tab.classList.add("active");
+          tab.setAttribute("aria-selected", "true");
+          tab.setAttribute("tabindex", "0");
+          const activePanel = document.getElementById(
+            tab.getAttribute("aria-controls"),
+          );
+          if (activePanel) activePanel.hidden = false;
+        }
+
+        tabs.forEach(function (tab, index) {
+          tab.addEventListener("click", function () {
+            activateTab(tab);
+            tab.focus();
+          });
+
+          tab.addEventListener("keydown", function (e) {
+            var newIndex;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+              newIndex = (index + 1) % tabs.length;
+            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+              newIndex = (index - 1 + tabs.length) % tabs.length;
+            } else if (e.key === "Home") {
+              newIndex = 0;
+            } else if (e.key === "End") {
+              newIndex = tabs.length - 1;
+            } else if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              activateTab(tab);
+              return;
+            } else {
+              return;
+            }
+            e.preventDefault();
+            activateTab(tabs[newIndex]);
+            tabs[newIndex].focus();
+          });
+        });
+
+        // Highlight current day on load
+        var days = [
+          "sunday",
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday",
+        ];
+        var today = days[new Date().getDay()];
+        var currentTab = tabList.querySelector('[data-day="' + today + '"]');
+        if (currentTab) {
+          activateTab(currentTab);
+        }
+      })();
+    </script>
   </body>
 </html>
