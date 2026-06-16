@@ -5,15 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Felix Weekly Schedule</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
 
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         background: #0f0f1a;
         color: #e0e0e0;
         padding: 2rem 1rem;
@@ -34,7 +29,6 @@
         margin-bottom: 1.5rem;
       }
 
-      /* Day tabs */
       .day-tabs {
         display: flex;
         flex-wrap: wrap;
@@ -55,20 +49,10 @@
         transition: all 0.2s;
       }
 
-      .day-tab:hover {
-        background: #2a2a40;
-        color: #ddd;
-      }
-      .day-tab.active {
-        background: #6c63ff;
-        color: #fff;
-      }
+      .day-tab:hover { background: #2a2a40; color: #ddd; }
+      .day-tab.active { background: #6c63ff; color: #fff; }
 
-      /* Schedule Grid */
-      /* Panel visibility is managed via the HTML hidden attribute */
-      .schedule-day[hidden] {
-        display: none;
-      }
+      .schedule-day[hidden] { display: none; }
 
       .schedule-grid {
         display: flex;
@@ -113,14 +97,8 @@
         transition: transform 0.15s;
       }
 
-      .activity-block:hover {
-        transform: scale(1.005);
-      }
-
-      .activity-icon {
-        font-size: 1.1rem;
-      }
-
+      .activity-block:hover { transform: scale(1.005); }
+      .activity-icon { font-size: 1.1rem; }
       .activity-detail {
         margin-left: auto;
         font-size: 0.7rem;
@@ -128,61 +106,20 @@
         font-weight: 400;
       }
 
-      /* Color palette */
-      .sleep {
-        background: #1a1a2e;
-        color: #b8b8d0;
-      }
-      .morning-routine {
-        background: #1e2a4a;
-        color: #8ab4f8;
-      }
-      .gym {
-        background: #2d1f4e;
-        color: #c084fc;
-      }
-      .meal {
-        background: #1e3a2a;
-        color: #81c784;
-      }
-      .free {
-        background: #1a1a1a;
-        color: #999;
-      }
-      .work {
-        background: #1e2840;
-        color: #8ab4f8;
-      }
-      .meeting {
-        background: #2a2a15;
-        color: #e8c56c;
-      }
-      .run {
-        background: #2d1520;
-        color: #f28b82;
-      }
-      .shower {
-        background: #1a2a38;
-        color: #6ecfdb;
-      }
-      .projects {
-        background: #1a2a1a;
-        color: #a1dd70;
-      }
-      .wind-down {
-        background: #1e1e28;
-        color: #999;
-      }
-      .cleaning {
-        background: #2a2020;
-        color: #f0a0a0;
-      }
-      .meal-prep {
-        background: #2a2a1a;
-        color: #d4c570;
-      }
+      .sleep { background: #1a1a2e; color: #b8b8d0; }
+      .morning-routine { background: #1e2a4a; color: #8ab4f8; }
+      .gym { background: #2d1f4e; color: #c084fc; }
+      .meal { background: #1e3a2a; color: #81c784; }
+      .free { background: #1a1a1a; color: #999; }
+      .work { background: #1e2840; color: #8ab4f8; }
+      .meeting { background: #2a2a15; color: #e8c56c; }
+      .run { background: #2d1520; color: #f28b82; }
+      .shower { background: #1a2a38; color: #6ecfdb; }
+      .projects { background: #1a2a1a; color: #a1dd70; }
+      .wind-down { background: #1e1e28; color: #999; }
+      .cleaning { background: #2a2020; color: #f0a0a0; }
+      .meal-prep { background: #2a2a1a; color: #d4c570; }
 
-      /* Legend */
       .legend {
         max-width: 700px;
         margin: 2rem auto 0;
@@ -206,7 +143,6 @@
         border-radius: 3px;
       }
 
-      /* Summary card */
       .summary {
         max-width: 700px;
         margin: 2rem auto 0;
@@ -237,591 +173,1373 @@
         color: #ccc;
       }
 
-      .summary-item .emoji {
+      .summary-item .emoji { font-size: 1rem; }
+
+      /* ───────────────────────────────────────────
+         TRAINING PLAN SECTION
+      ─────────────────────────────────────────── */
+
+      .training-section {
+        max-width: 700px;
+        margin: 3rem auto 0;
+        border-top: 1px solid #2a2a3a;
+        padding-top: 2.5rem;
+      }
+
+      .training-section h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 0.25rem;
+      }
+
+      .training-subtitle {
+        text-align: center;
+        color: #888;
+        font-size: 0.85rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Phase nav tabs */
+      .phase-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .phase-tab {
+        padding: 0.5rem 1.1rem;
+        border-radius: 8px;
+        background: #1e1e30;
+        color: #aaa;
+        border: none;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+
+      .phase-tab:hover { background: #2a2a40; color: #ddd; }
+      .phase-tab.active { color: #fff; }
+      .phase-tab.p1.active { background: #185FA5; }
+      .phase-tab.p2.active { background: #0F6E56; }
+      .phase-tab.p3.active { background: #993C1D; }
+      .phase-tab.p4.active { background: #534AB7; }
+
+      .phase-panel[hidden] { display: none; }
+
+      /* Phase header banner */
+      .phase-banner {
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.25rem;
+        border-left: 4px solid;
+      }
+
+      .phase-banner.p1 { background: #0a1a2e; border-color: #378ADD; }
+      .phase-banner.p2 { background: #071e14; border-color: #1D9E75; }
+      .phase-banner.p3 { background: #1f0d06; border-color: #D85A30; }
+      .phase-banner.p4 { background: #100e2a; border-color: #7F77DD; }
+
+      .phase-banner h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.3rem;
+      }
+
+      .phase-banner p {
+        font-size: 0.9rem;
+        color: #bbb;
+        line-height: 1.6;
+      }
+
+      .phase-banner .phase-meta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .phase-meta-item {
+        font-size: 0.82rem;
+        color: #999;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+
+      /* Week selector inside phase */
+      .week-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1rem;
+      }
+
+      .week-btn {
+        padding: 0.4rem 0.9rem;
+        border-radius: 6px;
+        background: #1e1e30;
+        color: #aaa;
+        border: none;
+        cursor: pointer;
+        font-size: 0.82rem;
+        font-weight: 600;
+        transition: all 0.15s;
+      }
+
+      .week-btn:hover { background: #2a2a40; color: #ddd; }
+      .week-btn.active { background: #2d2d4a; color: #c084fc; border: 1px solid #6c63ff; }
+      .week-btn.current-week:not(.active) { border: 1px solid #6c63ff55; color: #c084fc99; }
+      .week-btn.race-week { border: 1px solid #f28b82; color: #f28b82; }
+      .week-btn.taper { color: #e8c56c; }
+
+      /* Week detail card */
+      .week-card {
+        background: #161625;
+        border-radius: 10px;
+        border: 1px solid #2a2a3a;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1rem;
+      }
+
+      .week-card h4 {
         font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.2rem;
+      }
+
+      .week-card .week-dates {
+        font-size: 0.82rem;
+        color: #999;
+        margin-bottom: 0.85rem;
+      }
+
+      .week-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .week-stat {
+        background: #0f0f1a;
+        border-radius: 6px;
+        padding: 0.5rem;
+        text-align: center;
+      }
+
+      .week-stat-val {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .week-stat-label {
+        font-size: 0.7rem;
+        color: #777;
+        margin-top: 2px;
+      }
+
+      /* Day-by-day inside week */
+      .day-rows { display: flex; flex-direction: column; gap: 0.4rem; }
+
+      .day-row {
+        display: flex;
+        align-items: stretch;
+        border-radius: 6px;
+        overflow: hidden;
+        min-height: 48px;
+      }
+
+      .day-name {
+        width: 76px;
+        min-width: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #999;
+        background: #0f0f1a;
+        border-right: 2px solid #1e1e30;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .day-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .day-gym { background: #1e1428; }
+      .day-run { background: #1e0d11; }
+      .day-rest { background: #111118; }
+      .day-race { background: #1a0a05; }
+      .day-mixed { background: #12181e; }
+
+      .training-pill {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.25rem 0.7rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+
+      .pill-gym { background: #2d1f4e; color: #c084fc; }
+      .pill-run { background: #2d1520; color: #f28b82; }
+      .pill-walk { background: #1e2a3a; color: #6ecfdb; }
+      .pill-rest { background: #1e1e1e; color: #666; }
+      .pill-race { background: #3a1505; color: #f28b82; border: 1px solid #f28b82; }
+      .pill-taper { background: #2a2010; color: #e8c56c; }
+      .pill-long { background: #2d1520; color: #ff9980; border: 1px solid #f28b82; }
+
+      .day-note {
+        font-size: 0.78rem;
+        color: #777;
+        margin-left: auto;
+        font-style: italic;
+      }
+
+      .day-row.today .day-name {
+        color: #6c63ff;
+        background: #1a1830;
+        font-weight: 700;
+      }
+
+      .day-row.today {
+        box-shadow: inset 0 0 0 1.5px #6c63ff44;
+        border-radius: 6px;
+      }
+
+      .today-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #6c63ff;
+        background: #1e1a40;
+        border: 1px solid #6c63ff55;
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin-left: 4px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      /* Countdown badge */
+      .countdown-bar {
+        background: #1a0d06;
+        border: 1px solid #D85A30;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .countdown-label {
+        font-size: 0.8rem;
+        color: #D85A30;
+        font-weight: 600;
+      }
+
+      .countdown-num {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .countdown-sub {
+        font-size: 0.8rem;
+        color: #888;
+      }
+
+      .progress-bar-wrap {
+        width: 100%;
+        background: #1e1e30;
+        border-radius: 4px;
+        height: 6px;
+        margin-top: 0.5rem;
+        overflow: hidden;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #6c63ff, #D85A30);
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+
+      /* Mode switcher */
+      .mode-switcher {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .mode-btn {
+        padding: 0.5rem 1.6rem;
+        border-radius: 8px;
+        background: #1e1e30;
+        color: #aaa;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        letter-spacing: 0.01em;
+      }
+
+      .mode-btn:hover { background: #2a2a40; color: #ddd; }
+      .mode-btn.active { background: #6c63ff; color: #fff; }
+
+      #view-training { padding-top: 0.5rem; }
+      #view-training .training-section { margin-top: 0; border-top: none; padding-top: 0; }
+
+      /* Day detail drawer */
+      .day-row { cursor: pointer; }
+      .day-row:hover .day-name { color: #c084fc; }
+
+      .day-drawer {
+        display: none;
+        background: #0d0d1a;
+        border-left: 3px solid #6c63ff44;
+        padding: 0.75rem 1rem 0.75rem 1.25rem;
+        margin-top: -2px;
+        border-radius: 0 0 6px 6px;
+      }
+
+      .day-drawer.open { display: block; }
+
+      .drawer-section {
+        margin-bottom: 0.6rem;
+      }
+
+      .drawer-section:last-child { margin-bottom: 0; }
+
+      .drawer-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #666;
+        margin-bottom: 0.4rem;
+      }
+
+      .drawer-gym-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #c084fc;
+        margin-bottom: 0.5rem;
+      }
+
+      .exercise-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 5px 0;
+        border-bottom: 1px solid #1a1a2e;
+        font-size: 0.82rem;
+      }
+
+      .exercise-row:last-child { border-bottom: none; }
+
+      .ex-name { color: #ddd; flex: 1; }
+      .ex-sets { color: #c084fc; font-weight: 600; white-space: nowrap; font-size: 0.78rem; }
+
+      .drawer-run-detail {
+        font-size: 0.82rem;
+        color: #f28b82;
+        line-height: 1.7;
+      }
+
+      .drawer-tip {
+        font-size: 0.78rem;
+        color: #777;
+        font-style: italic;
+        margin-top: 0.5rem;
+        line-height: 1.55;
       }
 
       @media (max-width: 500px) {
-        body {
-          padding: 1rem 0.5rem;
-        }
-        h1 {
-          font-size: 1.5rem;
-        }
-        .time-label {
-          width: 60px;
-          min-width: 60px;
-          font-size: 0.65rem;
-        }
-        .activity-block {
-          font-size: 0.75rem;
-          padding: 0.4rem 0.6rem;
-        }
-        .activity-detail {
-          display: none;
-        }
-        .day-tab {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.75rem;
-        }
+        body { padding: 1rem 0.5rem; }
+        h1 { font-size: 1.5rem; }
+        .time-label { width: 60px; min-width: 60px; font-size: 0.65rem; }
+        .activity-block { font-size: 0.75rem; padding: 0.4rem 0.6rem; }
+        .activity-detail { display: none; }
+        .day-tab { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+        .week-stats { grid-template-columns: repeat(2, 1fr); }
+        .day-name { width: 52px; min-width: 52px; font-size: 0.62rem; }
+        .day-note { display: none; }
       }
     </style>
   </head>
   <body>
-    <h1>⚡ Felix Weekly Schedule</h1>
-    <p class="subtitle">
-      Sleep 7h · Gym AM + Run PM · 8h Work Blocks · Personal Projects · Weekend
-      flex
-    </p>
+    <h1>⚡ Felix</h1>
 
-    <!-- Day Tabs -->
-    <div
-      class="day-tabs"
-      id="dayTabs"
-      role="tablist"
-      aria-label="Select day of week"
-    >
-      <button
-        class="day-tab active"
-        data-day="monday"
-        role="tab"
-        id="tab-monday"
-        aria-controls="day-monday"
-        aria-selected="true"
-        tabindex="0"
-      >
-        Mon
-      </button>
-      <button
-        class="day-tab"
-        data-day="tuesday"
-        role="tab"
-        id="tab-tuesday"
-        aria-controls="day-tuesday"
-        aria-selected="false"
-        tabindex="-1"
-      >
-        Tue
-      </button>
-      <button
-        class="day-tab"
-        data-day="wednesday"
-        role="tab"
-        id="tab-wednesday"
-        aria-controls="day-wednesday"
-        aria-selected="false"
-        tabindex="-1"
-      >
-        Wed
-      </button>
-      <button
-        class="day-tab"
-        data-day="thursday"
-        role="tab"
-        id="tab-thursday"
-        aria-controls="day-thursday"
-        aria-selected="false"
-        tabindex="-1"
-      >
-        Thu
-      </button>
-      <button
-        class="day-tab"
-        data-day="friday"
-        role="tab"
-        id="tab-friday"
-        aria-controls="day-friday"
-        aria-selected="false"
-        tabindex="-1"
-      >
-        Fri
-      </button>
-      <button
-        class="day-tab"
-        data-day="saturday"
-        role="tab"
-        id="tab-saturday"
-        aria-controls="day-saturday"
-        aria-selected="false"
-        tabindex="-1"
-      >
-        Sat
-      </button>
-      <button
-        class="day-tab"
-        data-day="sunday"
-        role="tab"
-        id="tab-sunday"
-        aria-controls="day-sunday"
-        aria-selected="false"
-        tabindex="-1"
-      >
-        Sun
-      </button>
+    <div class="mode-switcher">
+      <button class="mode-btn active" id="btn-schedule" onclick="switchMode('schedule')">📅 Schedule</button>
+      <button class="mode-btn" id="btn-training" onclick="switchMode('training')">🏁 Training</button>
     </div>
 
-    <!-- Schedule panels — content injected by script below -->
-    <div
-      class="schedule-day"
-      id="day-monday"
-      role="tabpanel"
-      aria-labelledby="tab-monday"
-    ></div>
+    <div id="view-schedule">
+    <p class="subtitle">Sleep 7h · Gym AM + Run PM · 8h Work Blocks · Personal Projects · Weekend flex</p>
 
-    <div
-      class="schedule-day"
-      id="day-tuesday"
-      role="tabpanel"
-      aria-labelledby="tab-tuesday"
-      hidden
-    ></div>
-    <div
-      class="schedule-day"
-      id="day-wednesday"
-      role="tabpanel"
-      aria-labelledby="tab-wednesday"
-      hidden
-    ></div>
-    <div
-      class="schedule-day"
-      id="day-thursday"
-      role="tabpanel"
-      aria-labelledby="tab-thursday"
-      hidden
-    ></div>
+    <div class="day-tabs" id="dayTabs" role="tablist" aria-label="Select day of week">
+      <button class="day-tab active" data-day="monday" role="tab" id="tab-monday" aria-controls="day-monday" aria-selected="true" tabindex="0">Mon</button>
+      <button class="day-tab" data-day="tuesday" role="tab" id="tab-tuesday" aria-controls="day-tuesday" aria-selected="false" tabindex="-1">Tue</button>
+      <button class="day-tab" data-day="wednesday" role="tab" id="tab-wednesday" aria-controls="day-wednesday" aria-selected="false" tabindex="-1">Wed</button>
+      <button class="day-tab" data-day="thursday" role="tab" id="tab-thursday" aria-controls="day-thursday" aria-selected="false" tabindex="-1">Thu</button>
+      <button class="day-tab" data-day="friday" role="tab" id="tab-friday" aria-controls="day-friday" aria-selected="false" tabindex="-1">Fri</button>
+      <button class="day-tab" data-day="saturday" role="tab" id="tab-saturday" aria-controls="day-saturday" aria-selected="false" tabindex="-1">Sat</button>
+      <button class="day-tab" data-day="sunday" role="tab" id="tab-sunday" aria-controls="day-sunday" aria-selected="false" tabindex="-1">Sun</button>
+    </div>
 
-    <div
-      class="schedule-day"
-      id="day-friday"
-      role="tabpanel"
-      aria-labelledby="tab-friday"
-      hidden
-    ></div>
+    <div class="schedule-day" id="day-monday" role="tabpanel" aria-labelledby="tab-monday"></div>
+    <div class="schedule-day" id="day-tuesday" role="tabpanel" aria-labelledby="tab-tuesday" hidden></div>
+    <div class="schedule-day" id="day-wednesday" role="tabpanel" aria-labelledby="tab-wednesday" hidden></div>
+    <div class="schedule-day" id="day-thursday" role="tabpanel" aria-labelledby="tab-thursday" hidden></div>
+    <div class="schedule-day" id="day-friday" role="tabpanel" aria-labelledby="tab-friday" hidden></div>
+    <div class="schedule-day" id="day-saturday" role="tabpanel" aria-labelledby="tab-saturday" hidden></div>
+    <div class="schedule-day" id="day-sunday" role="tabpanel" aria-labelledby="tab-sunday" hidden></div>
 
-    <div
-      class="schedule-day"
-      id="day-saturday"
-      role="tabpanel"
-      aria-labelledby="tab-saturday"
-      hidden
-    ></div>
-
-    <div
-      class="schedule-day"
-      id="day-sunday"
-      role="tabpanel"
-      aria-labelledby="tab-sunday"
-      hidden
-    ></div>
-
-    <!-- Legend -->
     <div class="legend">
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #1a1a2e"></div>
-        Sleep
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #2d1f4e"></div>
-        Gym
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #2d1520"></div>
-        Run
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #1e2840"></div>
-        Day Job
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #1a2a1a"></div>
-        Personal Projects
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #1e3a2a"></div>
-        Meals
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #2a2a15"></div>
-        Meetings
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #2a2020"></div>
-        Cleaning
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #2a2a1a"></div>
-        Meal Prep
-      </div>
-      <div class="legend-item">
-        <div class="legend-swatch" style="background: #1a1a1a"></div>
-        Free / Flex
-      </div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1a1a2e"></div>Sleep</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2d1f4e"></div>Gym</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2d1520"></div>Run</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1e2840"></div>Day Job</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1a2a1a"></div>Personal Projects</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1e3a2a"></div>Meals</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2a2a15"></div>Meetings</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2a2020"></div>Cleaning</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#2a2a1a"></div>Meal Prep</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:#1a1a1a"></div>Free / Flex</div>
     </div>
 
-    <!-- Summary -->
     <div class="summary">
       <h3>📊 Weekly Overview</h3>
       <div class="summary-grid">
-        <div class="summary-item">
-          <span class="emoji">😴</span> Sleep: 7h/day (11:30 PM – 6:30 AM)
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🏋️</span> Gym: 2h every morning @ 7 AM
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🏃</span> Run: 1h evenings (Mon–Fri)
-        </div>
-        <div class="summary-item">
-          <span class="emoji">💼</span> Work: 8h/day (Mon–Thu), 7h Fri, start by
-          9:30 AM
-        </div>
-        <div class="summary-item">
-          <span class="emoji">📋</span> Standup: 12:30 PM Mon–Fri
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🥗</span> Meals: 2/day — after standup &amp;
-          before run
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🔨</span> Projects: Mon (1h), Tue–Thu extended
-          (2h)
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🧹</span> Cleaning: Friday
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🧑‍🍳</span> Meal Prep: Sunday afternoon
-        </div>
-        <div class="summary-item">
-          <span class="emoji">🎉</span> Weekends: longer runs, girlfriend,
-          relax, free time
-        </div>
+        <div class="summary-item"><span class="emoji">😴</span> Sleep: 7h/day (11:30 PM – 6:30 AM)</div>
+        <div class="summary-item"><span class="emoji">🏋️</span> Gym: 2h every morning @ 7 AM</div>
+        <div class="summary-item"><span class="emoji">🏃</span> Run: 1h evenings (Mon–Fri)</div>
+        <div class="summary-item"><span class="emoji">💼</span> Work: 8h/day (Mon–Thu), 7h Fri, start by 9:30 AM</div>
+        <div class="summary-item"><span class="emoji">📋</span> Standup: 12:30 PM Mon–Fri</div>
+        <div class="summary-item"><span class="emoji">🥗</span> Meals: 2/day — after standup &amp; before run</div>
+        <div class="summary-item"><span class="emoji">🔨</span> Projects: Mon (1h), Tue–Thu extended (2h)</div>
+        <div class="summary-item"><span class="emoji">🧹</span> Cleaning: Friday</div>
+        <div class="summary-item"><span class="emoji">🧑‍🍳</span> Meal Prep: Sunday afternoon</div>
+        <div class="summary-item"><span class="emoji">🎉</span> Weekends: longer runs, girlfriend, relax, free time</div>
       </div>
     </div>
 
+
+    </div><!-- /view-schedule -->
+
+    <div id="view-training" hidden>
+    <!-- ═══════════════════════════════════════════════════════
+         TRAINING PLAN SECTION
+    ════════════════════════════════════════════════════════ -->
+    <div class="training-section">
+      <h2>🏁 Half-Marathon Training Plan</h2>
+      <p class="training-subtitle">Jun 16 – Dec 31, 2026 · Race day: Oct 25 · Goal weight: 68 kg</p>
+
+      <!-- Countdown to race -->
+      <div class="countdown-bar">
+        <div>
+          <div class="countdown-label">🏁 Race day countdown</div>
+          <div class="countdown-sub">Kisumu Half-Marathon · Oct 25, 2026</div>
+        </div>
+        <div style="text-align:right">
+          <div class="countdown-num" id="days-to-race">—</div>
+          <div class="countdown-sub">days to go</div>
+        </div>
+        <div class="progress-bar-wrap" style="flex-basis:100%">
+          <div class="progress-bar-fill" id="race-progress" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Phase tabs -->
+      <div class="phase-tabs" id="phaseTabs" role="tablist">
+        <button class="phase-tab p1 active" data-phase="p1" role="tab">Phase 1 — Base</button>
+        <button class="phase-tab p2" data-phase="p2" role="tab">Phase 2 — Build</button>
+        <button class="phase-tab p3" data-phase="p3" role="tab">Phase 3 — Race Prep</button>
+        <button class="phase-tab p4" data-phase="p4" role="tab">Phase 4 — Recomp</button>
+      </div>
+
+      <!-- Phase panels -->
+      <div id="phase-p1" class="phase-panel">
+        <div class="phase-banner p1">
+          <h3>Phase 1 — Base Build</h3>
+          <p>Establish daily movement habit. Build aerobic base to 25 km/week. Gym 5×/week. Start caloric deficit. Easy pace only — you should be able to hold a full conversation while running.</p>
+          <div class="phase-meta">
+            <div class="phase-meta-item">📅 Jun 16 – Jul 27</div>
+            <div class="phase-meta-item">🏃 20–28 km/week</div>
+            <div class="phase-meta-item">🏋️ Push/Pull/Legs 5×</div>
+            <div class="phase-meta-item">🎯 –0.5 kg/week</div>
+          </div>
+        </div>
+        <div class="week-selector" id="ws-p1"></div>
+        <div id="wd-p1"></div>
+      </div>
+
+      <div id="phase-p2" class="phase-panel" hidden>
+        <div class="phase-banner p2">
+          <h3>Phase 2 — Build</h3>
+          <p>Mileage increases toward 35 km/week. Introduce tempo runs and intervals. Gym volume rises. Target –5 kg from start weight by end of this phase.</p>
+          <div class="phase-meta">
+            <div class="phase-meta-item">📅 Jul 28 – Sep 7</div>
+            <div class="phase-meta-item">🏃 28–36 km/week</div>
+            <div class="phase-meta-item">🏋️ Push/Pull/Legs 5×</div>
+            <div class="phase-meta-item">🎯 ~76 kg by Sep 7</div>
+          </div>
+        </div>
+        <div class="week-selector" id="ws-p2"></div>
+        <div id="wd-p2"></div>
+      </div>
+
+      <div id="phase-p3" class="phase-panel" hidden>
+        <div class="phase-banner p3">
+          <h3>Phase 3 — Race Prep &amp; Taper</h3>
+          <p>Peak mileage weeks followed by a 3-week taper. Long run peaks at 19 km. Gym volume reduces in final 2 weeks. Race day is Oct 25. No alcohol this phase.</p>
+          <div class="phase-meta">
+            <div class="phase-meta-item">📅 Sep 8 – Oct 25</div>
+            <div class="phase-meta-item">🏃 Peak 38 km → taper to 8 km</div>
+            <div class="phase-meta-item">🏋️ Reduced last 2 weeks</div>
+            <div class="phase-meta-item">🏁 Race: Oct 25</div>
+          </div>
+        </div>
+        <div class="week-selector" id="ws-p3"></div>
+        <div id="wd-p3"></div>
+      </div>
+
+      <div id="phase-p4" class="phase-panel" hidden>
+        <div class="phase-banner p4">
+          <h3>Phase 4 — Post-Race Recomposition</h3>
+          <p>Shift focus to muscle building. Running drops to 3–4×/week maintenance. Gym volume peaks with added leg day. Target 68 kg by Dec 31. Calories shift to slight deficit or maintenance.</p>
+          <div class="phase-meta">
+            <div class="phase-meta-item">📅 Oct 26 – Dec 31</div>
+            <div class="phase-meta-item">🏃 25–30 km/week maintenance</div>
+            <div class="phase-meta-item">🏋️ 5× Push/Pull/Legs A+B</div>
+            <div class="phase-meta-item">🎯 68 kg by Dec 31</div>
+          </div>
+        </div>
+        <div class="week-selector" id="ws-p4"></div>
+        <div id="wd-p4"></div>
+      </div>
+    </div><!-- /training-section -->
+    </div><!-- /view-training -->
+
     <script>
-      (function () {
-        // ── Schedule data ────────────────────────────────────────────────────
-        var morning = [
-          {
-            t: "6:30–7:00",
-            cls: "morning-routine",
-            icon: "🌅",
-            text: "Wake up &amp; get ready",
-          },
-          {
-            t: "7:00–9:00",
-            cls: "gym",
-            icon: "🏋️",
-            text: "Morning gym session",
-          },
-          {
-            t: "9:00–9:30",
-            cls: "shower",
-            icon: "🚿",
-            text: "Shower, prepare for day",
-          },
-          { t: "9:30–12:30", cls: "work", icon: "💼", text: "Deep work block" },
-          {
-            t: "12:30–1:00",
-            cls: "meeting",
-            icon: "📋",
-            text: "Daily standup",
-          },
-          { t: "1:00–2:00", cls: "meal", icon: "🥗", text: "Meal 1" },
-        ];
-        var eveningRun = [
-          {
-            t: "7:00–7:30",
-            cls: "meal",
-            icon: "🥩",
-            text: "Meal 2",
-            detail: "fuel for the run",
-          },
-          { t: "7:30–8:30", cls: "run", icon: "🏃", text: "Evening run" },
-          {
-            t: "8:30–9:00",
-            cls: "shower",
-            icon: "🚿",
-            text: "Shower &amp; wind down from run",
-          },
-        ];
-        var windDownSleep = [
-          {
-            t: "11:15–11:30",
-            cls: "wind-down",
-            icon: "📖",
-            text: "Wind down for sleep",
-          },
-          {
-            t: "11:30–6:30",
-            cls: "sleep",
-            icon: "😴",
-            text: "Sleep — 7 hours",
-          },
-        ];
-        var workBlock7 = {
-          t: "2:00–7:00",
-          cls: "work",
-          icon: "💼",
-          text: "Work block",
-          detail: "extended",
-        };
+    (function () {
+      // ── Mode switcher ────────────────────────────────────────────────────
+      window.switchMode = function(mode) {
+        var isTraining = mode === 'training';
+        document.getElementById('view-schedule').hidden = isTraining;
+        document.getElementById('view-training').hidden = !isTraining;
+        document.getElementById('btn-schedule').classList.toggle('active', !isTraining);
+        document.getElementById('btn-training').classList.toggle('active', isTraining);
+      };
 
-        var SCHEDULES = {
-          monday: morning.concat(
-            [workBlock7],
-            eveningRun,
-            [
-              {
-                t: "9:00–10:00",
-                cls: "projects",
-                icon: "🔨",
-                text: "Personal projects",
-              },
-              {
-                t: "10:00–11:15",
-                cls: "free",
-                icon: "🛋️",
-                text: "Free evening — relax, read, or free time",
-              },
-            ],
-            windDownSleep,
-          ),
-          tuesday: morning.concat(
-            [workBlock7],
-            eveningRun,
-            [
-              {
-                t: "9:00–11:15",
-                cls: "projects",
-                icon: "🔨",
-                text: "Personal projects",
-              },
-            ],
-            windDownSleep,
-          ),
-          friday: morning.concat(
-            [
-              {
-                t: "2:00–6:00",
-                cls: "work",
-                icon: "💼",
-                text: "Work block",
-                detail: "extended",
-              },
-              {
-                t: "6:00–7:00",
-                cls: "cleaning",
-                icon: "🧹",
-                text: "Clean the house",
-              },
-            ],
-            eveningRun,
-            [
-              {
-                t: "9:00–11:15",
-                cls: "free",
-                icon: "🎉",
-                text: "Free evening — it's Friday!",
-              },
-            ],
-            windDownSleep,
-          ),
-          saturday: [
-            {
-              t: "6:30–7:00",
-              cls: "morning-routine",
-              icon: "🌅",
-              text: "Wake up &amp; get ready",
-            },
-            {
-              t: "7:00–9:00",
-              cls: "gym",
-              icon: "🏋️",
-              text: "Morning gym session",
-            },
-            {
-              t: "9:00–10:30",
-              cls: "run",
-              icon: "🏃",
-              text: "Longer run",
-              detail: "extended time",
-            },
-            {
-              t: "10:30–11:00",
-              cls: "shower",
-              icon: "🚿",
-              text: "Shower &amp; get ready",
-            },
-            { t: "11:00–11:30", cls: "meal", icon: "🥗", text: "Meal" },
-            {
-              t: "11:30 onwards",
-              cls: "free",
-              icon: "☀️",
-              text: "Free time — girlfriend, relax, or going out",
-            },
-            {
-              t: "Evening",
-              cls: "free",
-              icon: "🌆",
-              text: "Out &amp; about — no scheduled run",
-            },
-            {
-              t: "~11:30",
-              cls: "sleep",
-              icon: "😴",
-              text: "Wind down &amp; sleep",
-            },
-          ],
-          sunday: [
-            {
-              t: "6:30–7:00",
-              cls: "morning-routine",
-              icon: "🌅",
-              text: "Wake up &amp; get ready",
-            },
-            {
-              t: "7:00–9:00",
-              cls: "gym",
-              icon: "🏋️",
-              text: "Morning gym session",
-            },
-            { t: "9:00–10:00", cls: "run", icon: "🏃", text: "Longer run" },
-            {
-              t: "10:00–11:00",
-              cls: "shower",
-              icon: "🚿",
-              text: "Shower &amp; breakfast",
-            },
-            { t: "11:00–12:00", cls: "meal", icon: "🥗", text: "Meal" },
-            {
-              t: "12:00–2:00",
-              cls: "meal-prep",
-              icon: "🧑‍🍳",
-              text: "Bulk meal prep",
-              detail: "cook &amp; portion for the week",
-            },
-            {
-              t: "2:00 onwards",
-              cls: "free",
-              icon: "☀️",
-              text: "Free time — girlfriend, relax, or free time",
-            },
-            {
-              t: "~11:30",
-              cls: "sleep",
-              icon: "😴",
-              text: "Wind down &amp; sleep",
-            },
-          ],
-        };
-        SCHEDULES.wednesday = SCHEDULES.tuesday;
-        SCHEDULES.thursday = SCHEDULES.tuesday;
+      // ── Original schedule data ───────────────────────────────────────────
+      var morning = [
+        { t: "6:30–7:00", cls: "morning-routine", icon: "🌅", text: "Wake up &amp; get ready" },
+        { t: "7:00–9:00", cls: "gym", icon: "🏋️", text: "Morning gym session" },
+        { t: "9:00–9:30", cls: "shower", icon: "🚿", text: "Shower, prepare for day" },
+        { t: "9:30–12:30", cls: "work", icon: "💼", text: "Deep work block" },
+        { t: "12:30–1:00", cls: "meeting", icon: "📋", text: "Daily standup" },
+        { t: "1:00–2:00", cls: "meal", icon: "🥗", text: "Meal 1" },
+      ];
+      var eveningRun = [
+        { t: "7:00–7:30", cls: "meal", icon: "🥩", text: "Meal 2", detail: "fuel for the run" },
+        { t: "7:30–8:30", cls: "run", icon: "🏃", text: "Evening run" },
+        { t: "8:30–9:00", cls: "shower", icon: "🚿", text: "Shower &amp; wind down from run" },
+      ];
+      var windDownSleep = [
+        { t: "11:15–11:30", cls: "wind-down", icon: "📖", text: "Wind down for sleep" },
+        { t: "11:30–6:30", cls: "sleep", icon: "😴", text: "Sleep — 7 hours" },
+      ];
+      var workBlock7 = { t: "2:00–7:00", cls: "work", icon: "💼", text: "Work block", detail: "extended" };
 
-        // ── Render ───────────────────────────────────────────────────────────
-        function renderDay(day) {
-          var rows = SCHEDULES[day]
-            .map(function (b) {
-              return (
-                '<div class="time-row">' +
-                '<div class="time-label">' +
-                b.t +
-                "</div>" +
-                '<div class="activity-block ' +
-                b.cls +
-                '">' +
-                '<span class="activity-icon">' +
-                b.icon +
-                "</span> " +
-                b.text +
-                (b.detail
-                  ? '<span class="activity-detail">' + b.detail + "</span>"
-                  : "") +
-                "</div>" +
-                "</div>"
-              );
-            })
-            .join("");
-          document.getElementById("day-" + day).innerHTML =
-            '<div class="schedule-grid">' + rows + "</div>";
+      var SCHEDULES = {
+        monday: morning.concat([workBlock7], eveningRun, [
+          { t: "9:00–10:00", cls: "projects", icon: "🔨", text: "Personal projects" },
+          { t: "10:00–11:15", cls: "free", icon: "🛋️", text: "Free evening — relax, read, or free time" },
+        ], windDownSleep),
+        tuesday: morning.concat([workBlock7], eveningRun, [
+          { t: "9:00–11:15", cls: "projects", icon: "🔨", text: "Personal projects" },
+        ], windDownSleep),
+        friday: morning.concat([
+          { t: "2:00–6:00", cls: "work", icon: "💼", text: "Work block", detail: "extended" },
+          { t: "6:00–7:00", cls: "cleaning", icon: "🧹", text: "Clean the house" },
+        ], eveningRun, [
+          { t: "9:00–11:15", cls: "free", icon: "🎉", text: "Free evening — it's Friday!" },
+        ], windDownSleep),
+        saturday: [
+          { t: "6:30–7:00", cls: "morning-routine", icon: "🌅", text: "Wake up &amp; get ready" },
+          { t: "7:00–9:00", cls: "gym", icon: "🏋️", text: "Morning gym session" },
+          { t: "9:00–10:30", cls: "run", icon: "🏃", text: "Longer run", detail: "extended time" },
+          { t: "10:30–11:00", cls: "shower", icon: "🚿", text: "Shower &amp; get ready" },
+          { t: "11:00–11:30", cls: "meal", icon: "🥗", text: "Meal" },
+          { t: "11:30 onwards", cls: "free", icon: "☀️", text: "Free time — girlfriend, relax, or going out" },
+          { t: "Evening", cls: "free", icon: "🌆", text: "Out &amp; about — no scheduled run" },
+          { t: "~11:30", cls: "sleep", icon: "😴", text: "Wind down &amp; sleep" },
+        ],
+        sunday: [
+          { t: "6:30–7:00", cls: "morning-routine", icon: "🌅", text: "Wake up &amp; get ready" },
+          { t: "7:00–9:00", cls: "gym", icon: "🏋️", text: "Morning gym session" },
+          { t: "9:00–10:00", cls: "run", icon: "🏃", text: "Longer run" },
+          { t: "10:00–11:00", cls: "shower", icon: "🚿", text: "Shower &amp; breakfast" },
+          { t: "11:00–12:00", cls: "meal", icon: "🥗", text: "Meal" },
+          { t: "12:00–2:00", cls: "meal-prep", icon: "🧑‍🍳", text: "Bulk meal prep", detail: "cook &amp; portion for the week" },
+          { t: "2:00 onwards", cls: "free", icon: "☀️", text: "Free time — girlfriend, relax, or free time" },
+          { t: "~11:30", cls: "sleep", icon: "😴", text: "Wind down &amp; sleep" },
+        ],
+      };
+      SCHEDULES.wednesday = SCHEDULES.tuesday;
+      SCHEDULES.thursday = SCHEDULES.tuesday;
+
+      function renderDay(day) {
+        var rows = SCHEDULES[day].map(function (b) {
+          return '<div class="time-row">' +
+            '<div class="time-label">' + b.t + '</div>' +
+            '<div class="activity-block ' + b.cls + '">' +
+            '<span class="activity-icon">' + b.icon + '</span> ' + b.text +
+            (b.detail ? '<span class="activity-detail">' + b.detail + '</span>' : '') +
+            '</div></div>';
+        }).join('');
+        document.getElementById('day-' + day).innerHTML = '<div class="schedule-grid">' + rows + '</div>';
+      }
+      ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].forEach(renderDay);
+
+      var tabList = document.getElementById('dayTabs');
+      var tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+
+      function activateDayTab(tab) {
+        tabs.forEach(function (t) {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = true;
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+        var activePanel = document.getElementById(tab.getAttribute('aria-controls'));
+        if (activePanel) activePanel.hidden = false;
+      }
+
+      tabs.forEach(function (tab, index) {
+        tab.addEventListener('click', function () { activateDayTab(tab); tab.focus(); });
+        tab.addEventListener('keydown', function (e) {
+          var newIndex;
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') newIndex = (index + 1) % tabs.length;
+          else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') newIndex = (index - 1 + tabs.length) % tabs.length;
+          else if (e.key === 'Home') newIndex = 0;
+          else if (e.key === 'End') newIndex = tabs.length - 1;
+          else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activateDayTab(tab); return; }
+          else return;
+          e.preventDefault();
+          activateDayTab(tabs[newIndex]);
+          tabs[newIndex].focus();
+        });
+      });
+
+      var days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+      var currentTab = tabList.querySelector('[data-day="' + days[new Date().getDay()] + '"]');
+      if (currentTab) activateDayTab(currentTab);
+
+
+      // ── TRAINING PLAN DATA ────────────────────────────────────────────────
+
+      // Helper: date string from offset
+      function addDays(base, n) {
+        var d = new Date(base);
+        d.setDate(d.getDate() + n);
+        return d;
+      }
+      function fmtDate(d) {
+        return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+      }
+
+      // Parse a YYYY-MM-DD string in LOCAL time (avoids UTC midnight offset bug)
+      function localDate(str) {
+        var p = str.split('-');
+        return new Date(+p[0], +p[1] - 1, +p[2]);
+      }
+
+      var START = localDate('2026-06-16');
+      var RACE = localDate('2026-10-25');
+      var END = localDate('2026-12-31');
+
+      // Countdown
+      var today = new Date();
+      today.setHours(0,0,0,0);
+      var daysToRace = Math.ceil((RACE - today) / 86400000);
+      var totalDays = Math.ceil((RACE - START) / 86400000);
+      var elapsed = totalDays - daysToRace;
+      document.getElementById('days-to-race').textContent = daysToRace > 0 ? daysToRace : 'Race done!';
+      var pct = Math.min(100, Math.max(0, Math.round((elapsed / totalDays) * 100)));
+      document.getElementById('race-progress').style.width = pct + '%';
+
+      // Each week: { label, dates, totalKm, longRun, keySession, days: [{name, pills, note}] }
+      // days: Mon–Sun
+      // pills: array of {cls, text}
+
+      function gym(label) { return { cls: 'pill-gym', text: label || '🏋️ Gym' }; }
+      function run(label) { return { cls: 'pill-run', text: label }; }
+      function walk(label) { return { cls: 'pill-walk', text: label || '🚶 Walk 3k' }; }
+      function rest() { return { cls: 'pill-rest', text: '— Rest' }; }
+      function longRun(label) { return { cls: 'pill-long', text: label }; }
+      function taper(label) { return { cls: 'pill-taper', text: label }; }
+      function raceDay() { return { cls: 'pill-race', text: '🏁 RACE DAY' }; }
+
+      var DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+      // Gym splits — keyed by day index (Mon=0..Fri=4)
+      var GYM_SPLITS = {
+        0: {
+          name: 'Push A — Chest, Shoulders, Triceps',
+          exercises: [
+            { name: 'Barbell bench press', sets: '4×8–10' },
+            { name: 'Overhead press (barbell)', sets: '3×10' },
+            { name: 'Incline dumbbell press', sets: '3×12' },
+            { name: 'Lateral raises', sets: '3×15' },
+            { name: 'Tricep pushdown (cable)', sets: '3×12' },
+            { name: 'Overhead tricep extension', sets: '2×15' },
+          ],
+          tip: 'Warm up: 5 min treadmill + 2 light sets on bench. Log your weights — add reps or weight each week.'
+        },
+        1: {
+          name: 'Pull A — Back, Biceps, Rear Delts',
+          exercises: [
+            { name: 'Deadlift', sets: '4×5–6' },
+            { name: 'Barbell row', sets: '3×8' },
+            { name: 'Lat pulldown (wide grip)', sets: '3×10' },
+            { name: 'Seated cable row', sets: '3×12' },
+            { name: 'Face pulls', sets: '3×15' },
+            { name: 'Barbell curl', sets: '3×12' },
+          ],
+          tip: 'Deadlift is your main compound. Rest 2–3 min between heavy sets. Keep your back flat.'
+        },
+        2: {
+          name: 'Legs A — Quads, Hamstrings, Glutes, Calves',
+          exercises: [
+            { name: 'Back squat', sets: '4×6–8' },
+            { name: 'Romanian deadlift', sets: '3×10' },
+            { name: 'Leg press', sets: '3×12' },
+            { name: 'Leg curl (machine)', sets: '3×12' },
+            { name: 'Calf raises (standing)', sets: '4×15' },
+            { name: 'Plank', sets: '3×45 sec' },
+          ],
+          tip: 'Wednesday legs are lighter than Saturday. Leave something in the tank — long run is Saturday.'
+        },
+        3: {
+          name: 'Push B — Shoulders, Chest, Triceps',
+          exercises: [
+            { name: 'Dumbbell shoulder press', sets: '4×10' },
+            { name: 'Arnold press', sets: '3×12' },
+            { name: 'Cable fly / pec deck', sets: '3×15' },
+            { name: 'Chest dips', sets: '3×10' },
+            { name: 'Lateral raises', sets: '3×15' },
+            { name: 'Skull crushers (EZ bar)', sets: '3×12' },
+          ],
+          tip: 'Push B is shoulder-dominant. Control the eccentric (lowering) on skull crushers — 3 seconds down.'
+        },
+        4: {
+          name: 'Pull B + Core — Back, Biceps, Abs',
+          exercises: [
+            { name: 'Pull-ups (or assisted)', sets: '4×8' },
+            { name: 'Single-arm dumbbell row', sets: '3×10 each' },
+            { name: 'Reverse fly (cables/dumbbells)', sets: '3×15' },
+            { name: 'Hammer curl', sets: '3×12' },
+            { name: 'Cable crunch', sets: '3×15' },
+            { name: 'Hanging knee raise', sets: '3×15' },
+          ],
+          tip: 'Friday is your last gym session before the weekend long run. Keep core work controlled — no rushing.'
+        },
+      };
+
+      // Phase 4 extended split (Legs B replaces one session)
+      var GYM_SPLITS_P4 = Object.assign({}, GYM_SPLITS, {
+        2: {
+          name: 'Legs A — Quad Focus',
+          exercises: [
+            { name: 'Back squat', sets: '4×6–8' },
+            { name: 'Leg press', sets: '3×12' },
+            { name: 'Walking lunges', sets: '3×12 each' },
+            { name: 'Leg extension', sets: '3×15' },
+            { name: 'Calf raises', sets: '4×15' },
+            { name: 'Plank', sets: '3×45 sec' },
+          ],
+          tip: 'Phase 4 quad focus. Drive through your heels on squat — glutes are now the priority target.'
+        },
+        4: {
+          name: 'Pull B + Legs B — Posterior Chain + Abs',
+          exercises: [
+            { name: 'Romanian deadlift', sets: '4×10' },
+            { name: 'Pull-ups (or assisted)', sets: '3×8' },
+            { name: 'Leg curl (machine)', sets: '3×12' },
+            { name: 'Hip thrust (barbell)', sets: '4×12' },
+            { name: 'Single-arm row', sets: '3×10 each' },
+            { name: 'Hanging knee raise', sets: '3×15' },
+          ],
+          tip: 'Posterior chain day — glutes, hamstrings, mid-back. Hip thrust is your main movement. Go heavy.'
+        },
+      });
+
+      // Build week start date (Mon offset from START)
+      function weekStart(weekIndex) {
+        return addDays(START, weekIndex * 7);
+      }
+      function weekDateRange(wi) {
+        var s = weekStart(wi);
+        var e = addDays(s, 6);
+        return fmtDate(s) + ' – ' + fmtDate(e);
+      }
+
+      // Phases with weeks
+      var PHASES = [
+        {
+          id: 'p1',
+          label: 'Phase 1 — Base',
+          weeks: [
+            {
+              label: 'Week 1', totalKm: '20 km', longRun: '8 km', keySession: '5×400m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Bench press / OHP / Triceps' },
+                { pills: [gym(), run('🏃 5×400m intervals')], note: 'Deadlift / Rows / Biceps' },
+                { pills: [gym(), walk()], note: 'Squat / RDL / Calves' },
+                { pills: [gym(), run('🏃 20 min tempo')], note: 'DB Shoulder press / Dips / Tri' },
+                { pills: [gym(), walk()], note: 'Pull-ups / Core / Hammer curl' },
+                { pills: [longRun('🏃 Long 8k')], note: 'Easy pace — conversational' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Full gym rest — foam roll' },
+              ]
+            },
+            {
+              label: 'Week 2', totalKm: '22 km', longRun: '9 km', keySession: '5×400m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push A — add weight if Week 1 felt easy' },
+                { pills: [gym(), run('🏃 5×400m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 22 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 9k')], note: 'Add 1 km from last week' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest + stretch' },
+              ]
+            },
+            {
+              label: 'Week 3', totalKm: '23 km', longRun: '10 km', keySession: '20 min tempo',
+              days: [
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 6×400m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 25 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 10k')], note: 'First double-digit long run' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest + meal prep' },
+              ]
+            },
+            {
+              label: 'Week 4', totalKm: '25 km', longRun: '11 km', keySession: '6×400m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push A — progressive overload' },
+                { pills: [gym(), run('🏃 6×400m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 25 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 11k')], note: 'Bring water. Eat beforehand.' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest day' },
+              ]
+            },
+            {
+              label: 'Week 5', totalKm: '26 km', longRun: '12 km', keySession: '6×400m + tempo',
+              days: [
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 6×400m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 28 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 12k')], note: 'Halfway to race distance!' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest' },
+              ]
+            },
+            {
+              label: 'Week 6', totalKm: '28 km', longRun: '13 km', keySession: '4×800m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 6k')], note: 'Push A — increase reps or weight' },
+                { pills: [gym(), run('🏃 4×800m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 30 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 13k')], note: 'End of Phase 1. Track weight.' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest + meal prep' },
+              ]
+            },
+          ]
+        },
+        {
+          id: 'p2',
+          label: 'Phase 2 — Build',
+          weeks: [
+            {
+              label: 'Week 7', totalKm: '28 km', longRun: '13 km', keySession: '30 min tempo',
+              days: [
+                { pills: [gym(), run('🏃 Easy 6k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 4×800m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A — heavier squat' },
+                { pills: [gym(), run('🏃 30 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 13k')], note: 'Slightly faster than Week 6' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest' },
+              ]
+            },
+            {
+              label: 'Week 8', totalKm: '30 km', longRun: '14 km', keySession: '5×800m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 6k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 5×800m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 32 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 14k')], note: 'Bring energy gel or banana' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest' },
+              ]
+            },
+            {
+              label: 'Week 9', totalKm: '31 km', longRun: '15 km', keySession: '5×800m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 6k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 5×800m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 35 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 15k')], note: 'Best long run so far. Note your pace.' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest + stretch' },
+              ]
+            },
+            {
+              label: 'Week 10', totalKm: '33 km', longRun: '15 km', keySession: '6×800m intervals',
+              days: [
+                { pills: [gym(), run('🏃 Easy 7k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 6×800m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A — add leg press' },
+                { pills: [gym(), run('🏃 35 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 15k')], note: 'Same distance, faster effort' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest' },
+              ]
+            },
+            {
+              label: 'Week 11', totalKm: '34 km', longRun: '16 km', keySession: '40 min tempo',
+              days: [
+                { pills: [gym(), run('🏃 Easy 7k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 6×800m intervals')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 40 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 16k')], note: '~8 weeks to race. You\'re in it.' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest + meal prep' },
+              ]
+            },
+            {
+              label: 'Week 12', totalKm: '36 km', longRun: '16 km', keySession: '5×1km race pace',
+              days: [
+                { pills: [gym(), run('🏃 Easy 7k')], note: 'Push A — max weight review' },
+                { pills: [gym(), run('🏃 5×1km @ race pace')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 40 min tempo')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 16k')], note: 'End of Phase 2. Weigh yourself.' },
+                { pills: [walk('🚶 Walk 3k')], note: 'Rest' },
+              ]
+            },
+          ]
+        },
+        {
+          id: 'p3',
+          label: 'Phase 3 — Race Prep',
+          weeks: [
+            {
+              label: 'Week 13', totalKm: '37 km', longRun: '17 km', keySession: '5×1km race pace',
+              days: [
+                { pills: [gym(), run('🏃 Easy 7k')], note: 'Push A — no alcohol this phase' },
+                { pills: [gym(), run('🏃 5×1km @ race pace')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 Tempo 7k')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 17k')], note: 'Longest ever. Fuel properly.' },
+                { pills: [rest()], note: 'Full rest — no gym, light walk only if needed' },
+              ]
+            },
+            {
+              label: 'Week 14', totalKm: '38 km', longRun: '18 km', keySession: 'Peak mileage',
+              days: [
+                { pills: [gym(), run('🏃 Easy 7k')], note: 'Push A' },
+                { pills: [gym(), run('🏃 5×1km @ race pace')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A' },
+                { pills: [gym(), run('🏃 Tempo 7k')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 18k')], note: '🌟 Peak long run. Simulate race conditions.' },
+                { pills: [rest()], note: 'Full rest' },
+              ]
+            },
+            {
+              label: 'Week 15', totalKm: '38 km', longRun: '19 km', keySession: 'Peak week',
+              days: [
+                { pills: [gym(), run('🏃 Easy 7k')], note: 'Push A — reduce 1 set on compounds' },
+                { pills: [gym(), run('🏃 5×1km @ race pace')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A — lighter' },
+                { pills: [gym(), run('🏃 Tempo 6k')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core' },
+                { pills: [longRun('🏃 Long 19k')], note: '🏆 Longest run of the plan. This is your confidence builder.' },
+                { pills: [rest()], note: 'Full rest — taper begins next week' },
+              ]
+            },
+            {
+              label: 'Week 16 — Taper', totalKm: '28 km', longRun: '14 km', keySession: 'Race-pace 8k',
+              days: [
+                { pills: [gym(), run('🏃 Easy 6k')], note: 'Push A — volume down 25%' },
+                { pills: [gym(), run('🏃 Race-pace 8k')], note: 'Pull A' },
+                { pills: [gym(), walk()], note: 'Legs A — lighter' },
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push B' },
+                { pills: [gym(), walk()], note: 'Pull B + Core — light' },
+                { pills: [taper('🏃 Taper 14k')], note: 'Easy — preserve fitness, shed fatigue' },
+                { pills: [rest()], note: 'Full rest' },
+              ]
+            },
+            {
+              label: 'Week 17 — Taper', totalKm: '20 km', longRun: '10 km', keySession: 'Easy miles only',
+              days: [
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push A — light weights only' },
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Pull A — light' },
+                { pills: [gym(), walk()], note: 'Legs A — bodyweight only' },
+                { pills: [gym(), run('🏃 Easy 5k')], note: 'Push B — light' },
+                { pills: [gym(), walk()], note: 'Pull B — light, skip heavy core' },
+                { pills: [taper('🏃 Taper 10k')], note: 'Easy. Just spin the legs.' },
+                { pills: [rest()], note: 'Full rest' },
+              ]
+            },
+            {
+              label: 'Week 18 — Taper', totalKm: '14 km', longRun: '6 km', keySession: '3×1km @ race pace',
+              days: [
+                { pills: [gym(), run('🏃 Easy 4k')], note: 'Very light upper body only' },
+                { pills: [gym(), run('🏃 3×1km @ race pace')], note: 'Keep sharp but short' },
+                { pills: [walk()], note: 'No gym — legs need to be fresh' },
+                { pills: [run('🏃 Easy 4k')], note: 'Last quality session' },
+                { pills: [walk()], note: 'No gym — rest up' },
+                { pills: [taper('🏃 Easy 6k')], note: 'Shake out run — very easy' },
+                { pills: [rest()], note: 'Full rest — carb load begins' },
+              ]
+            },
+            {
+              label: '🏁 Race Week', totalKm: '8 km + Race', longRun: '21.1 km race', keySession: 'Race day Oct 25',
+              days: [
+                { pills: [walk()], note: 'No gym — walk, stretch, visualise' },
+                { pills: [run('🏃 Easy 3k')], note: 'Keep legs loose. No gym.' },
+                { pills: [walk()], note: 'Rest + carb load (280–300g carbs)' },
+                { pills: [run('🏃 Easy 3k + strides')], note: 'Short and sharp. Lay out race kit.' },
+                { pills: [walk()], note: 'Full rest — pack bag, sleep early' },
+                { pills: [rest()], note: 'Travel / final rest before race' },
+                { pills: [raceDay()], note: '🎽 Oct 25 — Go get it. 13 weeks of work.' },
+              ]
+            },
+          ]
+        },
+        {
+          id: 'p4',
+          label: 'Phase 4 — Recomp',
+          weeks: (function () {
+            var template = function (weekNum, km, longKm, gymNote) {
+              return {
+                label: 'Week ' + weekNum,
+                totalKm: km + ' km',
+                longRun: longKm + ' km maintenance',
+                keySession: 'Muscle building focus',
+                days: [
+                  { pills: [gym(), run('🏃 Easy 5k')], note: gymNote || 'Push A' },
+                  { pills: [gym(), walk()], note: 'Pull A' },
+                  { pills: [gym(), run('🏃 Run 6k')], note: 'Legs A — Quad focus' },
+                  { pills: [gym(), walk()], note: 'Push B' },
+                  { pills: [gym(), run('🏃 Run 5k')], note: 'Pull B + Legs B — Posterior chain' },
+                  { pills: [longRun('🏃 Long ' + longKm + 'k')], note: 'Maintenance. Enjoy it — race is done!' },
+                  { pills: [rest()], note: 'Full rest' },
+                ]
+              };
+            };
+            return [
+              template(20, 25, 10, 'Post-race recovery — lighter weights this week'),
+              template(21, 27, 10),
+              template(22, 28, 10),
+              template(23, 28, 10, 'Push A — progressive overload resumes'),
+              template(24, 30, 10),
+              template(25, 30, 10),
+              template(26, 28, 10),
+              template(27, 28, 10, 'Push A — track lift PRs this week'),
+              template(28, 30, 10),
+              template(29, 28, 10, '🎯 Final week — weigh in. Target: 68 kg.'),
+            ];
+          })()
+        },
+      ];
+
+      // ── Render training plan ──────────────────────────────────────────────
+
+      function renderPills(pills) {
+        return pills.map(function (p) {
+          return '<span class="training-pill ' + p.cls + '">' + p.text + '</span>';
+        }).join('');
+      }
+
+      function buildDrawerHtml(d, dayIndex, phaseId) {
+        var hasGym = d.pills.some(function(p){ return p.cls === 'pill-gym'; });
+        var runPill = d.pills.find(function(p){ return p.cls === 'pill-run' || p.cls === 'pill-long' || p.cls === 'pill-taper'; });
+        var isRace = d.pills.some(function(p){ return p.cls === 'pill-race'; });
+        var isRest = !hasGym && !runPill && !isRace;
+        var parts = [];
+
+        if (isRace) {
+          parts.push('<div class="drawer-section"><div class="drawer-label">Race day</div>' +
+            '<div class="drawer-run-detail">🏁 21.1 km — Kisumu Half-Marathon<br>Start easy. Run your own race. Trust the training.</div></div>');
         }
-        [
-          "monday",
-          "tuesday",
-          "wednesday",
-          "thursday",
-          "friday",
-          "saturday",
-          "sunday",
-        ].forEach(renderDay);
 
-        // ── Tab interaction ──────────────────────────────────────────────────
-        var tabList = document.getElementById("dayTabs");
-        var tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
-
-        function activateTab(tab) {
-          tabs.forEach(function (t) {
-            t.classList.remove("active");
-            t.setAttribute("aria-selected", "false");
-            t.setAttribute("tabindex", "-1");
-            var panel = document.getElementById(
-              t.getAttribute("aria-controls"),
+        if (hasGym && dayIndex <= 4) {
+          var splits = phaseId === 'p4' ? GYM_SPLITS_P4 : GYM_SPLITS;
+          var split = splits[dayIndex];
+          if (split) {
+            var exRows = split.exercises.map(function(e) {
+              return '<div class="exercise-row"><span class="ex-name">' + e.name + '</span><span class="ex-sets">' + e.sets + '</span></div>';
+            }).join('');
+            parts.push(
+              '<div class="drawer-section">' +
+              '<div class="drawer-label">Gym</div>' +
+              '<div class="drawer-gym-label">🏋️ ' + split.name + '</div>' +
+              exRows +
+              (split.tip ? '<div class="drawer-tip">💡 ' + split.tip + '</div>' : '') +
+              '</div>'
             );
-            if (panel) panel.hidden = true;
-          });
-          tab.classList.add("active");
-          tab.setAttribute("aria-selected", "true");
-          tab.setAttribute("tabindex", "0");
-          var activePanel = document.getElementById(
-            tab.getAttribute("aria-controls"),
-          );
-          if (activePanel) activePanel.hidden = false;
+          }
         }
 
-        tabs.forEach(function (tab, index) {
-          tab.addEventListener("click", function () {
-            activateTab(tab);
-            tab.focus();
-          });
-          tab.addEventListener("keydown", function (e) {
-            var newIndex;
-            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-              newIndex = (index + 1) % tabs.length;
-            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-              newIndex = (index - 1 + tabs.length) % tabs.length;
-            } else if (e.key === "Home") {
-              newIndex = 0;
-            } else if (e.key === "End") {
-              newIndex = tabs.length - 1;
-            } else if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              activateTab(tab);
-              return;
-            } else {
-              return;
+        if (runPill) {
+          var runText = runPill.text.replace(/^🏃\s*/, '');
+          var runTips = {
+            'easy': 'Easy pace — you can hold a full conversation. Heart rate ~65–70% max. This is base-building, not racing.',
+            'interval': 'Near-max effort for each rep. Full 90-sec rest between reps. Don\'t start too fast.',
+            'tempo': 'Comfortably hard — breathing heavy but controlled. ~80–85% effort. Consistent pace throughout.',
+            'long': 'Start slow, finish strong. Bring water. Fuel at 45 min if run exceeds 60 min.',
+            'taper': 'Easy taper run — resist the urge to go faster. You\'re preserving fitness, not building it.',
+            'race': 'Race-pace effort. Practice your target km splits.',
+          };
+          var tipKey = runText.toLowerCase().indexOf('interval') > -1 ? 'interval' :
+                       runText.toLowerCase().indexOf('tempo') > -1 ? 'tempo' :
+                       runText.toLowerCase().indexOf('long') > -1 ? 'long' :
+                       runText.toLowerCase().indexOf('taper') > -1 ? 'taper' :
+                       runText.toLowerCase().indexOf('race pace') > -1 ? 'race' : 'easy';
+          parts.push(
+            '<div class="drawer-section">' +
+            '<div class="drawer-label">Run</div>' +
+            '<div class="drawer-run-detail">🏃 ' + runText + '</div>' +
+            '<div class="drawer-tip">💡 ' + runTips[tipKey] + '</div>' +
+            '</div>'
+          );
+        }
+
+        var walkPill = d.pills.find(function(p){ return p.cls === 'pill-walk'; });
+        if (walkPill && !hasGym) {
+          parts.push('<div class="drawer-section"><div class="drawer-label">Recovery</div>' +
+            '<div class="drawer-run-detail">🚶 ' + walkPill.text.replace(/^🚶\s*/, '') + '</div>' +
+            '<div class="drawer-tip">💡 Brisk pace. This keeps the daily movement streak alive and aids recovery.</div></div>');
+        }
+
+        if (isRest && !isRace) {
+          parts.push('<div class="drawer-section"><div class="drawer-run-detail" style="color:#666">Full rest day. Sleep, eat well, foam roll if sore.</div></div>');
+        }
+
+        return parts.length ? parts.join('') : '<div class="drawer-tip">No details available.</div>';
+      }
+
+      function renderWeekDetail(phase, weekIndex, container) {
+        var w = phase.weeks[weekIndex];
+        // Compute absolute week index for date calc
+        var absWeekIndex = 0;
+        for (var pi = 0; pi < PHASES.length; pi++) {
+          if (PHASES[pi].id === phase.id) break;
+          absWeekIndex += PHASES[pi].weeks.length;
+        }
+        absWeekIndex += weekIndex;
+
+        var dateRange = weekDateRange(absWeekIndex);
+
+        // Detect current week + today's day index
+        var now = new Date(); now.setHours(0,0,0,0);
+        var ws = weekStart(absWeekIndex);
+        var we = addDays(ws, 6);
+        var isCurrentWeek = (now >= ws && now <= we);
+        var jsDow = now.getDay(); // 0=Sun .. 6=Sat
+        var planDow = jsDow === 0 ? 6 : jsDow - 1; // Mon=0 .. Sun=6
+
+        var statHtml = [
+          { val: w.totalKm, label: 'Weekly km' },
+          { val: w.longRun, label: 'Long run' },
+          { val: '5×', label: 'Gym days' },
+          { val: w.keySession, label: 'Key session' }
+        ].map(function (s) {
+          return '<div class="week-stat"><div class="week-stat-val">' + s.val + '</div><div class="week-stat-label">' + s.label + '</div></div>';
+        }).join('');
+
+        // Build day rows with drawer placeholders
+        var dayRowsHtml = w.days.map(function (d, i) {
+          var hasGym = d.pills.some(function(p){ return p.cls === 'pill-gym'; });
+          var hasRun = d.pills.some(function(p){ return p.cls === 'pill-run' || p.cls === 'pill-long' || p.cls === 'pill-taper'; });
+          var isRace = d.pills.some(function(p){ return p.cls === 'pill-race'; });
+          var bgCls = isRace ? 'day-race' : (hasGym && hasRun ? 'day-mixed' : hasGym ? 'day-gym' : hasRun ? 'day-run' : 'day-rest');
+          var isToday = isCurrentWeek && (i === planDow);
+          return '<div class="day-row-wrap" data-day-idx="' + i + '">' +
+            '<div class="day-row' + (isToday ? ' today' : '') + '" data-day-idx="' + i + '">' +
+              '<div class="day-name">' + DAY_NAMES[i] + '</div>' +
+              '<div class="day-content ' + bgCls + '">' +
+                renderPills(d.pills) +
+                (isToday ? '<span class="today-badge">today</span>' : '') +
+                (d.note ? '<span class="day-note">' + d.note + '</span>' : '') +
+                '<span class="day-expand" style="margin-left:6px;font-size:0.65rem;color:#444;user-select:none;">▼</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="day-drawer" data-day-idx="' + i + '"></div>' +
+          '</div>';
+        }).join('');
+
+        var html = '<div class="week-card">' +
+          '<h4>' + w.label + (isCurrentWeek ? ' <span style="font-size:0.7rem;color:#6c63ff;font-weight:400;">— current week</span>' : '') + '</h4>' +
+          '<div class="week-dates">' + dateRange + '</div>' +
+          '<div class="week-stats">' + statHtml + '</div>' +
+          '<div class="day-rows">' + dayRowsHtml + '</div>' +
+          '</div>';
+
+        container.innerHTML = html;
+
+        // Wire up click handlers
+        container.querySelectorAll('.day-row').forEach(function(row) {
+          row.addEventListener('click', function() {
+            var idx = parseInt(row.getAttribute('data-day-idx'));
+            var wrap = row.parentElement;
+            var drawer = wrap.querySelector('.day-drawer');
+            var arrow = row.querySelector('.day-expand');
+            var isOpen = drawer.classList.contains('open');
+
+            // Close all other drawers in this week card
+            container.querySelectorAll('.day-drawer.open').forEach(function(d) {
+              d.classList.remove('open');
+              var a = d.parentElement.querySelector('.day-expand');
+              if (a) a.textContent = '▼';
+            });
+
+            if (!isOpen) {
+              if (!drawer.innerHTML) {
+                drawer.innerHTML = buildDrawerHtml(w.days[idx], idx, phase.id);
+              }
+              drawer.classList.add('open');
+              if (arrow) arrow.textContent = '▲';
             }
-            e.preventDefault();
-            activateTab(tabs[newIndex]);
-            tabs[newIndex].focus();
           });
         });
 
-        // Highlight current day on load
-        var days = [
-          "sunday",
-          "monday",
-          "tuesday",
-          "wednesday",
-          "thursday",
-          "friday",
-          "saturday",
-        ];
-        var currentTab = tabList.querySelector(
-          '[data-day="' + days[new Date().getDay()] + '"]',
-        );
-        if (currentTab) activateTab(currentTab);
-      })();
+        // Auto-open today's drawer
+        if (isCurrentWeek) {
+          var todayWrap = container.querySelector('.day-row-wrap[data-day-idx="' + planDow + '"]');
+          if (todayWrap) {
+            var todayDrawer = todayWrap.querySelector('.day-drawer');
+            var todayArrow = todayWrap.querySelector('.day-expand');
+            if (todayDrawer) {
+              todayDrawer.innerHTML = buildDrawerHtml(w.days[planDow], planDow, phase.id);
+              todayDrawer.classList.add('open');
+              if (todayArrow) todayArrow.textContent = '▲';
+            }
+          }
+        }
+      }
+
+      function initPhase(phase) {
+        var wsEl = document.getElementById('ws-' + phase.id);
+        var wdEl = document.getElementById('wd-' + phase.id);
+        var activeWeek = 0;
+        var currentWeekIndex = -1; // which week index is actually today
+
+        // Find current week
+        var now = new Date(); now.setHours(0,0,0,0);
+        var absOffset = 0;
+        for (var pi = 0; pi < PHASES.length; pi++) {
+          if (PHASES[pi].id === phase.id) break;
+          absOffset += PHASES[pi].weeks.length;
+        }
+        for (var wi = 0; wi < phase.weeks.length; wi++) {
+          var ws = weekStart(absOffset + wi);
+          var we = addDays(ws, 6);
+          if (now >= ws && now <= we) { activeWeek = wi; currentWeekIndex = wi; break; }
+          if (now < ws && wi === 0) { activeWeek = 0; break; }
+          if (now > we) activeWeek = Math.min(wi + 1, phase.weeks.length - 1);
+        }
+
+        phase.weeks.forEach(function (w, i) {
+          var btn = document.createElement('button');
+          btn.className = 'week-btn' + (i === activeWeek ? ' active' : '') +
+            (i === currentWeekIndex ? ' current-week' : '') +
+            (w.label.indexOf('Taper') !== -1 ? ' taper' : '') +
+            (w.label.indexOf('Race Week') !== -1 ? ' race-week' : '');
+          btn.textContent = w.label;
+          btn.addEventListener('click', function () {
+            wsEl.querySelectorAll('.week-btn').forEach(function(b){ b.classList.remove('active'); });
+            btn.classList.add('active');
+            renderWeekDetail(phase, i, wdEl);
+          });
+          wsEl.appendChild(btn);
+        });
+
+        renderWeekDetail(phase, activeWeek, wdEl);
+      }
+
+      PHASES.forEach(function (phase) { initPhase(phase); });
+
+      // Phase tab switching
+      var phaseTabs = Array.from(document.getElementById('phaseTabs').querySelectorAll('.phase-tab'));
+      phaseTabs.forEach(function (ptab) {
+        ptab.addEventListener('click', function () {
+          phaseTabs.forEach(function (t) { t.classList.remove('active'); });
+          ptab.classList.add('active');
+          PHASES.forEach(function (p) {
+            var el = document.getElementById('phase-' + p.id);
+            el.hidden = (p.id !== ptab.dataset.phase);
+          });
+        });
+      });
+
+      // Auto-activate the current phase on load
+      var nowCheck = new Date(); nowCheck.setHours(0,0,0,0);
+      var cumWeeks = 0;
+      for (var pi = 0; pi < PHASES.length; pi++) {
+        var phaseEndDate = addDays(START, (cumWeeks + PHASES[pi].weeks.length) * 7 - 1);
+        if (nowCheck <= phaseEndDate || pi === PHASES.length - 1) {
+          var activePhaseTab = document.querySelector('[data-phase="' + PHASES[pi].id + '"]');
+          if (activePhaseTab) activePhaseTab.click();
+          break;
+        }
+        cumWeeks += PHASES[pi].weeks.length;
+      }
+
+    })();
     </script>
   </body>
 </html>
